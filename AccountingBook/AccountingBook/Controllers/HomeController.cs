@@ -1,4 +1,7 @@
-﻿using AccountingBook.Models.ViewModels;
+﻿using AccountingBook.Models;
+using AccountingBook.Models.ViewModels;
+using AccountingBook.Repositories;
+using AccountingBook.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +12,18 @@ namespace AccountingBook.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly AccBookService _accbookSvc;
+        
+        public HomeController()
         {
-            List<AccountingBookViewModel> AcBookLists = new List<AccountingBookViewModel>();
-            AccountingBookViewModel ac1 = new AccountingBookViewModel();
-            ac1.Type = "支出";
-            ac1.DT = DateTime.Now.Date.AddDays(-2);
-            ac1.Cost = 1000;
-            AcBookLists.Add(ac1);
+            var unitOfWork = new EFUnitOfWork();
+            _accbookSvc = new AccBookService(unitOfWork);        
+        }        
 
-            AccountingBookViewModel ac2 = new AccountingBookViewModel();
-            ac2.Type = "支出";
-            ac2.DT = DateTime.Now.Date.AddDays(-1);
-            ac2.Cost = 500;
-            AcBookLists.Add(ac2);
-
-            AccountingBookViewModel ac3 = new AccountingBookViewModel();
-            ac3.Type = "支出";
-            ac3.DT = DateTime.Now.Date;
-            ac3.Cost = 1300;
-            AcBookLists.Add(ac3);
-            return View(AcBookLists);
+        public ActionResult Index()
+        {            
+            return View(_accbookSvc.AccBookVMLookup());
         }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
