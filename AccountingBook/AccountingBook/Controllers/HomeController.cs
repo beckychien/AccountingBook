@@ -7,22 +7,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace AccountingBook.Controllers
 {
     public class HomeController : Controller
     {
         private readonly AccBookService _accbookSvc;
-        
+        private int pageSize = 20;
         public HomeController()
         {
             var unitOfWork = new EFUnitOfWork();
             _accbookSvc = new AccBookService(unitOfWork);        
         }        
 
-        public ActionResult Index()
-        {            
-            return View(_accbookSvc.AccBookVMLookup());
+        public ActionResult Index(int page=1)
+        {
+            int currentPage = page < 1 ? 1 : page;            
+            return View((_accbookSvc.AccBookVMLookup().OrderByDescending(x=>x.DT)).ToPagedList(currentPage,pageSize));
         }
         public ActionResult About()
         {

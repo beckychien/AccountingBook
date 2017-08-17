@@ -30,15 +30,16 @@
     </div>
 
     <div class="container body-content">
-        @RenderBody()
+        @RenderBody()        
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - <a href="#">SkillTree</a></p>
         </footer>
     </div>
-
+    @RenderSection("styles", false)
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.1.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
+    
 </body>
 </html>
 

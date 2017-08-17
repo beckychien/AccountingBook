@@ -1,9 +1,13 @@
-﻿@model IEnumerable<AccountingBook.Models.ViewModels.AccountingBookViewModel>
+﻿@model IPagedList<AccountingBook.Models.ViewModels.AccountingBookViewModel>
 <div>
     <br />
     <br />
 </div>
 
+@section styles
+{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
 
 <div class="well">
     <form class="form-horizontal">
@@ -52,13 +56,13 @@
                     #
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Type)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DT)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DT)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cost)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
                 </th>
             </tr>
 
@@ -88,6 +92,6 @@
     </div>
 </div>
 
-
+@Html.PagedListPager(Model,page=>Url.Action("Index",new { page}))
 
 
