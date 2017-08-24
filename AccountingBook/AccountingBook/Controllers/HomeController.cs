@@ -15,17 +15,42 @@ namespace AccountingBook.Controllers
     {
         private readonly AccBookService _accbookSvc;
         private int pageSize = 20;
+
         public HomeController()
         {
             var unitOfWork = new EFUnitOfWork();
-            _accbookSvc = new AccBookService(unitOfWork);        
-        }        
+            _accbookSvc = new AccBookService(unitOfWork);
+        }
+
 
         public ActionResult Index(int page=1)
         {
-            int currentPage = page < 1 ? 1 : page;            
-            return View((_accbookSvc.AccBookVMLookup().OrderByDescending(x=>x.DT)).ToPagedList(currentPage,pageSize));
+            
+            int currentPage = page < 1 ? 1 : page;
+            var resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize);
+            AccountingBookViewModel result = new AccountingBookViewModel
+            {
+                Date = DateTime.Now,
+                AccountBookList = resource
+            };
+            return View(result);
         }
+
+        [HttpPost]
+        public ActionResult Index_Add(AccountingBookViewModel item, int page=1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+
+            if (ModelState.IsValid)
+            {                
+                    _accbookSvc.AccBookInsert(item);
+                    _accbookSvc.Save();                
+            }
+
+            var result = _accbookSvc.AccBookVMLookup(currentPage, pageSize);
+            return PartialView("_IndexPartial", result);
+        }    
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -38,7 +63,7 @@ namespace AccountingBook.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }      
+        }
 
     }
 }

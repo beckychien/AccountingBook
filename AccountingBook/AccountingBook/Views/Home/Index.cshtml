@@ -1,6 +1,5 @@
-﻿@model IPagedList<AccountingBook.Models.ViewModels.AccountingBookViewModel>
+﻿@model AccountingBook.Models.ViewModels.AccountingBookViewModel
 <div>
-    <br />
     <br />
 </div>
 
@@ -9,89 +8,104 @@
     <link href="~/Content/PagedList.css" rel="stylesheet" />
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <div class="well">
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="category" class="col-sm-2 control-label">類別</label>
-            <div class="col-sm-10">
-                <select id="category" class="form-control">
-                    <option value="" selected>請選擇</option>
-                    <option>支出</option>
-                    <option>收入</option>
-                </select>
+    @using (Ajax.BeginForm("Index_Add", new AjaxOptions { UpdateTargetId = "AccountBookListDisplay", HttpMethod = "POST" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Category, null, new { htmlAttributes = new { @class = "form-control" } })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="money" class="col-sm-2 control-label">金額</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="money" placeholder="金額">
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="date" class="col-sm-2 control-label">日期</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="date" placeholder="日期">
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="description" class="col-sm-2 control-label">備註</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="description">
-                </textarea>
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Memo, new { htmlAttributes = new { @class = "form-control" } })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-8 col-sm-4">
-                <button type="submit" class="btn btn-default">送出</button>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <input type="submit" value="送出" class="btn btn-default" />
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+
+    }
+</div>
+<br />
+
+
+<div id="AccountBookListDisplay">
+    @{Html.RenderPartial("_IndexPartial", Model.AccountBookList); }
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>
-                    #
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().DT)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
-                </th>
-            </tr>
 
-            @{
-                int i = 0;
-            }
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @(++i)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DT)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                </tr>
-            }
-        </table>
 
-    </div>
-</div>
 
-@Html.PagedListPager(Model,page=>Url.Action("Index",new { page}))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

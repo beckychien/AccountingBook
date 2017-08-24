@@ -18,12 +18,12 @@ namespace AccountingBook.Repositories
 
         public void Dispose()
         {
-            Context.SaveChanges();
+            Context.Dispose();
         }
 
         public void Save()
         {
-            Context.Dispose();
+            Context.SaveChanges();
         }
     }
 }
