@@ -19,7 +19,7 @@ namespace AccountingBook.Models.ViewModels
         [Remote("Index", "Validate", "", ErrorMessage = "不為有效日期或大於今日")]
         [Required(ErrorMessage = "日期為必填")]
         [DisplayName("日期")]
-        [DataType(DataType.Date, ErrorMessage = "請輸入有效日期")]
+        [DataType(DataType.DateTime, ErrorMessage = "請輸入有效日期")]
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "備註為必填")]

@@ -16,61 +16,65 @@
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+
 <div class="well">
     @using (Ajax.BeginForm("Index_Add", new AjaxOptions { UpdateTargetId = "AccountBookListDisplay", HttpMethod = "POST" }))
     {
         @Html.AntiForgeryToken()
 
-        <form class="form-horizontal">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EnumDropDownListFor(model => model.Category, null, new { htmlAttributes = new { @class = "form-control" } })
-                    <br />
-                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Category, null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
-            <br />
-            <br />
-            <div class="form-group">
-                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-                </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
             </div>
-            <br />
-            <br />
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
-            <br />
-            <br />
-            <div class="form-group">
-                @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Memo, new { htmlAttributes = new { @class = "form-control" } })
-                    <br />
-                    @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
-                </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Memo, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
             </div>
-            <br />
-            <br />
-            <div class="form-group">
-                <div class="col-sm-offset-8 col-sm-4">
-                    <input type="submit" value="送出" class="btn btn-default" />
-                </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-sm-offset-8 col-sm-4">
+                <input type="submit" value="送出" class="btn btn-default" />
             </div>
-        </form>
+        </div>
+        <br />
+        <br />
 
     }
 </div>
 <br />
+
+
+
 
 
 <div id="AccountBookListDisplay">
