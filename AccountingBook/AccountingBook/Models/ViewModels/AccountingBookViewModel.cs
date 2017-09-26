@@ -37,12 +37,14 @@ namespace AccountingBook.Models.ViewModels
 
     public class AccountingBookDisplay
     {
-        public int Id { get; set; }
+        public Guid Guid { get; set; }
 
         public int Category { get; set; }
 
         [DisplayName("類型")]
         public string ShowCategory { get { return (Enum.GetName(typeof(CategoryEnum), Category)); } }
+
+        public CategoryEnum EnumCategory { get { return (CategoryEnum)(Enum.Parse(typeof(CategoryEnum), Category.ToString())); } }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [DisplayName("日期")]

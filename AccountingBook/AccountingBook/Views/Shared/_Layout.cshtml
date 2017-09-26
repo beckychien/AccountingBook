@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的記帳本</title>
-    <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />  
+    <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/themes/default.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/themes/default.date.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/themes/default.time.css">
@@ -24,14 +24,22 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">首頁</a>
-                    <li><a href="#">關於</a>
-                    <li><a href="#">連絡方式</a>
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("登入", "Login", "Account", new { area = "", controller = "Account" }, null)</li>
+                    }
+                    <li>@Html.ActionLink("記帳去", "Index", "Home", new { area = "", controller = "Home" }, null)</li>
+                    <li>@Html.ActionLink("修改記帳資料", "Index", new { collection = "Manage", area = "Backend", controller = "Home" }, null)</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("登出", "SignOut", "Account", new { area = "", controller = "Account" }, null)</li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
-
+    <br />
+    <br />
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -48,14 +56,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/picker.date.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/picker.time.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.3/legacy.js"></script>
-  
-    <script>    
+
+    <script>
+
         $(document).ready(function () {
             $("[data-datetimepicker]").pickadate({
                 format: 'yyyy/mm/dd',
                 formatSubmit: 'yyyy/mm/dd',
                 hiddenName: true,
-                max: true                
+                max: true
             });
         });
     </script>

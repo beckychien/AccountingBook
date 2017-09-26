@@ -47,5 +47,7 @@ namespace AccountingBook.Repositories
         {
             Objectset.Remove(entity);
         }
+
+       
     }
 }
