@@ -36,7 +36,7 @@ namespace AccountingBook.Repositories
         public IQueryable<T> LookupAll()
         {
             return Objectset;
-        }                                
+        }
 
         public void Create(T entity)
         {
@@ -48,6 +48,14 @@ namespace AccountingBook.Repositories
             Objectset.Remove(entity);
         }
 
-       
+        public void Update(T entity)
+        {
+            Objectset.Attach(entity);
+            UnitOfWork.Context.Entry(entity).State = EntityState.Modified;
+
+        }
     }
+
+
+
 }

@@ -17,5 +17,7 @@ namespace AccountingBook.Repositories
         void Create(T entity);
 
         void Remove(T entity);
+
+        void Update(T entity);
     }
 }

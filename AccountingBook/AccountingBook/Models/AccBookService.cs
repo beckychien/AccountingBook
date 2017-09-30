@@ -66,6 +66,15 @@ namespace AccountingBook.Service
             return result;
         }
 
+        public AccountBook AccBookLookup(Guid id)
+        {
+            var source = _accRep.LookupAll();
+            var result = (from i in source
+                          where i.Id == id
+                          select i).FirstOrDefault();
+            return result;
+        }
+
         public void AccBookInsert(AccountingBookViewModel item)
         {
             try
@@ -103,6 +112,18 @@ namespace AccountingBook.Service
                     return true;
                 else
                     return false;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void UpdateAccBook(AccountBook data)
+        {
+            try
+            {
+                _accRep.Update(data);
             }
             catch
             {
