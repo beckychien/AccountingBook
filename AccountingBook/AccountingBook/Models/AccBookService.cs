@@ -28,17 +28,25 @@ namespace AccountingBook.Service
         /// AccountingBookViewModel查詢
         /// </summary>
         /// <returns></returns>
-        public IPagedList<AccountingBookDisplay> AccBookVMLookup(int currentPage, int pageSize)
+        public IPagedList<AccountingBookDisplay> AccBookVMLookup(int currentPage, int pageSize, DateTime? beginDate, DateTime? endDate)
         {
+            IQueryable<AccountingBookDisplay> result;
+
             var source = _accRep.LookupAll();
-            var result = (from i in source
-                          select new AccountingBookDisplay()
-                          {
-                              Guid=i.Id,
-                              Amount = i.Amounttt,
-                              Date = i.Dateee,
-                              Category = i.Categoryyy
-                          });
+
+            result = (from i in source
+                      select new AccountingBookDisplay()
+                      {
+                          Guid = i.Id,
+                          Amount = i.Amounttt,
+                          Date = i.Dateee,
+                          Category = i.Categoryyy
+                      });
+
+            if (beginDate != null && endDate != null)
+            {
+                result = result.Where(x => x.Date >= beginDate && x.Date < endDate);
+            }
 
             return (result.OrderByDescending(x => x.Date)).ToPagedList(currentPage, pageSize);
         }
@@ -47,10 +55,10 @@ namespace AccountingBook.Service
         {
             var source = _accRep.LookupAll();
             var result = (from i in source
-                          where i.Id==id
+                          where i.Id == id
                           select new AccountingBookDisplay()
                           {
-                              Guid=i.Id,
+                              Guid = i.Id,
                               Amount = i.Amounttt,
                               Date = i.Dateee,
                               Category = i.Categoryyy
@@ -78,7 +86,7 @@ namespace AccountingBook.Service
             }
         }
 
-        
+
 
         public void Save()
         {
@@ -90,7 +98,7 @@ namespace AccountingBook.Service
             try
             {
                 var s = _usersRep.LookupAll();
-                var i=s.Where(x => x.UserName == account && x.Password == password).FirstOrDefault();
+                var i = s.Where(x => x.UserName == account && x.Password == password).FirstOrDefault();
                 if (i != null)
                     return true;
                 else
@@ -101,5 +109,7 @@ namespace AccountingBook.Service
                 throw;
             }
         }
+
+
     }
 }

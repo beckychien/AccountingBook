@@ -26,7 +26,7 @@ namespace AccountingBook.Areas.Backend.Controllers
         public ActionResult Index(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-            var resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize);
+            var resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize,null,null);
      
             return View(resource);     
         }

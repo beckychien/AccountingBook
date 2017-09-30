@@ -1,12 +1,8 @@
 ﻿@model IEnumerable<AccountingBook.Models.ViewModels.AccountingBookDisplay>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
 
 
+<br />
 <table class="table">
     <tr>
         <th>
@@ -27,7 +23,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Guid)
+                @Html.HiddenFor(modelItem => item.Guid)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ShowCategory)

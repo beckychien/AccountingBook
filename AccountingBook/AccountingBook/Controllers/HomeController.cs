@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using System.Globalization;
 
 namespace AccountingBook.Controllers
 {
@@ -22,12 +23,23 @@ namespace AccountingBook.Controllers
             _accbookSvc = new AccBookService(unitOfWork);
         }
 
-
-        public ActionResult Index(int page=1)
+        public ActionResult Index(int page = 1, string ParaDate = "")
         {
-            
+            IPagedList<AccountingBookDisplay> resource;
             int currentPage = page < 1 ? 1 : page;
-            var resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize);
+
+            DateTime beginDate;
+            if (DateTime.TryParseExact(ParaDate, "yyyy/MM", CultureInfo.InvariantCulture,
+                      DateTimeStyles.None, out beginDate))
+            {
+                DateTime endDate = beginDate.AddMonths(1);
+                resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize, beginDate,endDate);
+            }
+            else
+            {
+                resource = _accbookSvc.AccBookVMLookup(currentPage, pageSize, null, null);
+            }
+
             AccountingBookViewModel result = new AccountingBookViewModel
             {
                 Date = DateTime.Now,
@@ -37,19 +49,19 @@ namespace AccountingBook.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index_Add(AccountingBookViewModel item, int page=1)
+        public ActionResult Index_Add(AccountingBookViewModel item, int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
 
             if (ModelState.IsValid)
-            {                
-                    _accbookSvc.AccBookInsert(item);
-                    _accbookSvc.Save();                
+            {
+                _accbookSvc.AccBookInsert(item);
+                _accbookSvc.Save();
             }
 
-            var result = _accbookSvc.AccBookVMLookup(currentPage, pageSize);
+            var result = _accbookSvc.AccBookVMLookup(currentPage, pageSize,null,null);
             return PartialView("_IndexPartial", result);
-        }    
+        }
 
         public ActionResult About()
         {

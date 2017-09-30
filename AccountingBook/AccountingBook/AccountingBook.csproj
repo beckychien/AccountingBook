@@ -212,7 +212,6 @@
       <DependentUpon>AccBookModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBookEnum.cs" />
-    <Compile Include="Models\CustomUser.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>AccBookModel.tt</DependentUpon>

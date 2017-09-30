@@ -16,7 +16,7 @@ namespace AccountingBook.Areas.Backend
         {
             context.MapRoute(
                 "Backend_default",
-                "Backend/{controller}/{action}/{id}",
+                "SkillTree/Backend/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "AccountingBook.Areas.Backend.Controllers" }
 
