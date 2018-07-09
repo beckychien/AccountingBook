@@ -1,0 +1,187 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+
+<body>
+    <br>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="accpie" style="height:600px"></div>
+    <div id="accchart" style="height:600px"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetBalance")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    // 路径配置
+                    require.config({
+                        paths: {
+                            echarts: 'http://echarts.baidu.com/build/dist'
+                        }
+                    });
+                    // 使用
+                    require(
+                        [
+                            'echarts',
+                            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+                        ],
+                        function (ec) {
+                            // 基于准备好的dom，初始化echarts图表
+                            var myChart = ec.init(document.getElementById('accchart'));
+
+                            var option = {
+                                tooltip: {
+                                    show: true
+                                },
+                                legend: {
+                                    data: ['收入支出表']
+                                },
+                                xAxis: [
+                                    {
+                                        type: 'category',
+                                        data: result.Date
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: 'value'
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        "name": "收入支出表",
+                                        "type": "bar",
+                                        "data": result.Balance
+                                    }
+                                ]
+                            };
+
+
+                            // 为echarts对象加载数据
+                            myChart.setOption(option);
+                        }
+                    );
+                }
+
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var category = [];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetPie")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    //取得Category
+                    var src = JSON.parse(result);
+                    $.each(src, function (index, item) {
+                        category.push(item.name);
+                    });
+                    console.log(category);
+
+
+                    // 路径配置
+                    require.config({
+                        paths: {
+                            echarts: 'http://echarts.baidu.com/build/dist'
+                        }
+                    });
+                    // 使用
+                    require(
+                        [
+                            'echarts',
+                            'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                        ],
+                        function (ec) {
+                            // 基于准备好的dom，初始化echarts图表
+                            var myPie = ec.init(document.getElementById('accpie'));
+                            var pieoption = {
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                                },
+                                legend: {
+                                    orient: 'vertical',
+                                    x: 'left',
+                                    data: category
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        mark: { show: true },
+                                        dataView: { show: true, readOnly: false },
+                                        magicType: {
+                                            show: true,
+                                            type: ['pie'],
+                                            option: {
+                                                funnel: {
+                                                    x: '25%',
+                                                    width: '50%',
+                                                    funnelAlign: 'center',
+                                                    max: 1548
+                                                }
+                                            }
+                                        },
+                                        restore: { show: false },
+                                        saveAsImage: { show: true }
+                                    }
+                                },
+                                calculable: true,
+                                series: [
+                                    {
+                                        name: '收入支出圓餅圖',
+                                        type: 'pie',
+                                        radius: ['50%', '70%'],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                },
+                                                labelLine: {
+                                                    show: false
+                                                }
+                                            },
+                                            emphasis: {
+                                                label: {
+                                                    show: true,
+                                                    position: 'center',
+                                                    textStyle: {
+                                                        fontSize: '30',
+                                                        fontWeight: 'bold'
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        data: JSON.parse(result)
+                                       
+                                    }
+                                ]
+                            };
+                            myPie.setOption(pieoption);
+                        }
+                    );
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>

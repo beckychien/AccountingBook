@@ -30,6 +30,7 @@
                     }
                     <li>@Html.ActionLink("記帳去", "Index", "Home", new { area = "", controller = "Home" }, null)</li>
                     <li>@Html.ActionLink("修改記帳資料", "Index", new { collection = "Manage", area = "Backend", controller = "Home" }, null)</li>
+                    <li>@Html.ActionLink("Charts", "Index", "Charts", new {  area = "",controller = "Charts" }, null)</li>
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("登出", "SignOut", "Account", new { area = "", controller = "Account" }, null)</li>

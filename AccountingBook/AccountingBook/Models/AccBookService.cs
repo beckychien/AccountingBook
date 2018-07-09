@@ -95,7 +95,23 @@ namespace AccountingBook.Service
             }
         }
 
+        public List<AccountingBookDisplay> AccBookBalanceLookup()
+        {
+            IQueryable<AccountingBookDisplay> result;
 
+            var source = _accRep.LookupAll();
+
+            result = (from i in source
+                      select new AccountingBookDisplay()
+                      {
+                          Guid = i.Id,
+                          Amount = i.Categoryyy == 0 ? i.Amounttt * -1 : i.Amounttt,
+                          Date = i.Dateee,
+                          Category = i.Categoryyy
+                      });
+
+            return (result.OrderByDescending(x => x.Date).ToList());
+        }
 
         public void Save()
         {
