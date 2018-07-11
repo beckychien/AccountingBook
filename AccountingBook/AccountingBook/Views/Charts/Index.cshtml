@@ -13,12 +13,14 @@
 
 <body>
     <br>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+
     <div id="accpie" style="height:600px"></div>
     <div id="accchart" style="height:600px"></div>
-    <!-- ECharts单文件引入 -->
+    <!-- ECharts -->
     <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
     <script type="text/javascript">
+
+        //Bar
         $(document).ready(function () {
             $.ajax({
                 type: "POST",
@@ -36,10 +38,10 @@
                     require(
                         [
                             'echarts',
-                            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+                            'echarts/chart/bar'
                         ],
                         function (ec) {
-                            // 基于准备好的dom，初始化echarts图表
+                            // 初始化echarts
                             var myChart = ec.init(document.getElementById('accchart'));
 
                             var option = {
@@ -69,19 +71,14 @@
                                 ]
                             };
 
-
-                            // 为echarts对象加载数据
                             myChart.setOption(option);
                         }
                     );
                 }
 
             })
-        })
-    </script>
 
-    <script>
-        $(document).ready(function () {
+            //Pie
             var category = [];
             $.ajax({
                 type: "POST",
@@ -108,10 +105,10 @@
                     require(
                         [
                             'echarts',
-                            'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                            'echarts/chart/pie'
                         ],
                         function (ec) {
-                            // 基于准备好的dom，初始化echarts图表
+                            // 初始化echarts
                             var myPie = ec.init(document.getElementById('accpie'));
                             var pieoption = {
                                 tooltip: {
@@ -149,7 +146,8 @@
                                     {
                                         name: '收入支出圓餅圖',
                                         type: 'pie',
-                                        radius: ['50%', '70%'],
+                                        radius: ['20%', '50%'],
+                                        center: ['25%', '50%'],
                                         itemStyle: {
                                             normal: {
                                                 label: {
@@ -162,17 +160,45 @@
                                             emphasis: {
                                                 label: {
                                                     show: true,
-                                                    position: 'center',
+                                                    position: 'left',
                                                     textStyle: {
-                                                        fontSize: '30',
+                                                        fontSize: '20',
                                                         fontWeight: 'bold'
                                                     }
                                                 }
                                             }
                                         },
                                         data: JSON.parse(result)
-                                       
+
                                     }
+                                    ,
+
+                                    {
+                                        name: '收入支出南丁格爾玫瑰圖',
+                                        type: 'pie',
+                                        radius: [50, 150],
+                                        center: ['75%', '50%'],
+                                        roseType: 'radius',
+                                        label: {
+                                            normal: {
+                                                show: false
+                                            },
+                                            emphasis: {
+                                                show: true
+                                            }
+                                        },
+                                        lableLine: {
+                                            normal: {
+                                                show: false
+                                            },
+                                            emphasis: {
+                                                show: true
+                                            }
+                                        },
+                                        data: JSON.parse(result)
+
+                                    }
+
                                 ]
                             };
                             myPie.setOption(pieoption);
@@ -180,8 +206,12 @@
                     );
                 }
             })
+
+
         })
     </script>
+
+
 
 </body>
 </html>
